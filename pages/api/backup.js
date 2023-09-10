@@ -256,3 +256,21 @@ export const weatherData = async () => {
 }
 
 // 이제 화면단 만들어서 post body값으로 지역 고르는 기능 하나 만들기.
+
+
+
+
+const locationCoords = {
+  '서울': { nx: "60", ny: "127" },
+  '경기': { nx: "61", ny: "121" },
+  '제주': { nx: "53", ny: "38" },
+};
+let now = dayjs();
+let date = now.subtract(9,"hour").format("YYYYMMDD");
+let time = now.subtract(9,"hour").set("m", 0).format("HHmm");
+
+let locationOptions = ['서울','경기','제주'];
+
+let randomLocation = locationOptions[Math.floor(Math.random()*locationOptions.length)]; 
+const data = await getWeatherItems(date,time,randomLocation)
+console.log('클라이언트',data)

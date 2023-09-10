@@ -1,4 +1,3 @@
-import { getTime, scheduler } from '@/pages/api/weather'
 import './globals.css'
 import { Inter } from 'next/font/google'
 
@@ -10,8 +9,6 @@ export const metadata = {
 }
 
 export default async function RootLayout({ children }) {
-  // await scheduler()
-  await getTime()
   return (
     <html lang="ko">
       <body className={inter.className}>
