@@ -14,11 +14,6 @@ if (process.env.NODE_ENV === 'development') {
 }
 export { connectDB }
 
-
-
-
-
-
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 export async function addRealtimeData(title, contents){
     const res = await coll.insertOne({

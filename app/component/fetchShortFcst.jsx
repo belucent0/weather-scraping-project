@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 
-export default function launchToFetch() {
-    const [collecting, setCollecting] = useState('수집 시작 버튼');
+export default function FetchShortFcst() {
+    const [collecting, setCollecting] = useState('단기예보 수집 시작 버튼');
     
     const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -16,9 +16,9 @@ export default function launchToFetch() {
         await sleep(1800);
 
         try {
-            await fetch('/api/ultraShortNowCast')
-            alert('수집 요청 완료');
-            setCollecting('수집 재요청하기')
+            await fetch('/api/shortForecast', {cache : "no-store"})
+            // alert('수집 요청 완료');
+            setCollecting('단기예보 수집 재요청하기')
         } catch (error) {
             console.error("Error:", error);
             alert('수집요청 실패');
