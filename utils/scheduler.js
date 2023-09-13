@@ -4,11 +4,22 @@ import { tryToSave } from "./tryToSave";
 import { getBaseTimeAndDate } from './forURL';
  
   export async function scheduler(collectionName) {
-    const locations = ['서울', '경기', '제주']; // 필요시 지역 추가
+    
+    
+    // DB로부터 모든 위치 데이터 가져오기
+    let client = await connectDB;
+    const db = client.db("DB_gractor");
+    const locationsColl= db.collection('locations');
+    let locationsArray=await locationsColl.find().toArray();
+    console.log(locationsArray)
+
+    
     console.log('스케줄러 진입')
     //매 시각 0분, 20분, 40분 마다 API 요청(), 해당 분 마다 세 번 요청
     const data = cron.schedule('*/5 * * * * *', async function () {
-      for (const location of locations) { // 각 수집지역 순회
+      for (const locationData of locationsArray) { // 각 수집지역 순회
+        const location = locationData.locationName;
+        console.log(location)
         const {baseDate, baseTime} = await getBaseTimeAndDate(collectionName)
         console.log('탐색중인 지역:', location, '발표일시', baseDate, baseTime);
   

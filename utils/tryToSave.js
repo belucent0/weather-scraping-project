@@ -9,7 +9,7 @@ export async function tryToSave(location, collectionName) {
     const weatherAPIOptionMap = {
         'ultraShortNowcast': 'getUltraSrtNcst',
         'ultraShortForecast': 'getUltraSrtFcst',
-        'shortForecast': 'getVilageFcst'
+        'shortForecast': 'getUltraSrtFcst',
     };
   
     const weatherDataOption = weatherAPIOptionMap[collectionName];
@@ -20,12 +20,11 @@ export async function tryToSave(location, collectionName) {
     }
   
     const {baseDate, baseTime} = await getBaseTimeAndDate(collectionName)
-  
+    console.log(baseDate, baseTime, collectionName, collectionName)
     const {nx, ny} = await getLocation(location)
+    
     const fullUrl = await getFullUrl({weatherDataOption, baseDate, baseTime, nx ,ny});
-  
-    console.log(location, fullUrl)
-
+    console.log('fullUrl: ' + fullUrl)
     const collectedDataFunctionMap = {
         'ultraShortNowcast': getUltraShortNowcastItems,
         'ultraShortForecast': getUltraShortForecastItems,

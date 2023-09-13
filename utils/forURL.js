@@ -1,17 +1,19 @@
 import dayjs from 'dayjs';
+import { connectDB } from './database';
 
 //수집지역 선택 함수
 export async function getLocation(location) {
-    const locationCoords = {
-      '서울': { nx: "60", ny: "127" },
-      '경기': { nx: "61", ny: "121" },
-      '제주': { nx: "53", ny: "38" },
-    };
     
-    let {nx, ny}  = locationCoords[location]
-    
-    return {nx, ny}
-  }
+    let client = await connectDB;
+    const db = client.db("DB_gractor");
+    const coll = db.collection('locations');
+    let locationData  = await coll.findOne({ locationName: location });
+    if (!locationData){
+        throw new Error(`Unknown location name: ${locationName}`);
+    }
+
+    return {nx: locationData.nx , ny : locationData.ny}
+}
 
 // API FullURL 생성 함수
 export async function getFullUrl({weatherDataOption, baseDate, baseTime, nx, ny}) {
@@ -20,7 +22,7 @@ export async function getFullUrl({weatherDataOption, baseDate, baseTime, nx, ny}
   const pageNo = '1' // 페이지번호
   const numOfRows = '1000' // 한 페이지 결과 수
   const dataType = 'JSON'
-  
+  console.log(weatherDataOption)
   const fullUrl = `${rawUrl}/${weatherDataOption}?serviceKey=${serviceKey}&pageNo=${pageNo}&numOfRows=${numOfRows}&dataType=${dataType}&base_date=${baseDate}&base_time=${baseTime}&nx=${nx}&ny=${ny}`;
 
   return fullUrl;

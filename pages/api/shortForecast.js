@@ -1,4 +1,3 @@
-import cron from 'node-cron'
 import originalFetch from 'node-fetch';
 import fetchRetry from 'fetch-retry';
 import { scheduler } from '@/utils/scheduler';
